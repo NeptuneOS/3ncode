@@ -1,0 +1,4 @@
+?package(controlaula):needs="X11" section "Apps/Video"\
+title="Encode"\
+command="/usr/bin/encode.gambas"\
+icon="/usr/share/pixmaps/encode.png"

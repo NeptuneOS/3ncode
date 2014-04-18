@@ -1,0 +1,44 @@
+encode usr/bin
+debian/encode.desktop usr/share/applications
+qml/img/encode.png usr/share/pixmaps
+
+qml/audioBitrateList.qml  usr/share/encode/qml
+qml/queueList.qml usr/share/encode/qml
+qml/TextField.qml usr/share/encode/qml
+qml/queueModel.qml usr/share/encode/qml
+qml/containerList.qml usr/share/encode/qml
+qml/logView.qml usr/share/encode/qml
+qml/aboutview.qml usr/share/encode/qml
+qml/videoCodecList.qml usr/share/encode/qml
+qml/aspectList.qml usr/share/encode/qml
+qml/audioCodecList.qml usr/share/encode/qml
+qml/audioLanguageChannelList.qml usr/share/encode/qml
+qml/audioSamplingFreqList.qml usr/share/encode/qml
+qml/ScrollBar.qml usr/share/encode/qml
+qml/resolutionList.qml usr/share/encode/qml
+qml/qmldir usr/share/encode/qml
+qml/errorView.qml usr/share/encode/qml
+qml/videoBitrateList.qml usr/share/encode/qml
+qml/queue.qml usr/share/encode/qml
+qml/private/TextFieldFocus.qml usr/share/encode/qml/private
+qml/encodeItem.qml usr/share/encode/qml
+qml/TextArea.qml usr/share/encode/qml
+qml/audioChannelList.qml usr/share/encode/qml
+qml/convertAnimView.qml usr/share/encode/qml 
+qml/img usr/share/encode/qml/img
+qml/img/convert.png usr/share/encode/qml/img
+qml/img/encode.png usr/share/encode/qml/img
+qml/img/encode-btn.png usr/share/encode/qml/img
+qml/img/down.png usr/share/encode/qml/img
+qml/img/success.png usr/share/encode/qml/img
+qml/img/audio-x-generic.png usr/share/encode/qml/img
+qml/img/up.png usr/share/encode/qml/img
+qml/img/left.png usr/share/encode/qml/img
+qml/img/video-x-generic.png usr/share/encode/qml/img
+qml/img/configure.png usr/share/encode/qml/img
+qml/img/remove.png usr/share/encode/qml/img
+qml/img/error.png usr/share/encode/qml/img
+
+3ncode.qml usr/share/encode
+encode.py usr/share/encode
+

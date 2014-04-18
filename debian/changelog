@@ -1,0 +1,251 @@
+encode (3.0.0-neptune2) unstable; urgency=low
+
+  * Fixed desktop file and shell script copy to /usr/bin
+
+ -- Leszek Lesner <leszek@zevenos.com>  Fri, 18 Apr 2014 11:33:38 +0000
+
+encode (3.0.0-neptune1) unstable; urgency=low
+
+  * New release packaged for Neptune
+
+ -- Leszek Lesner <leszek@zevenos.com>  Fri, 18 Apr 2014 11:26:21 +0000
+
+encode (0.0.25-1ubuntu10) unstable; urgency=low
+
+  * Added libopus support to gui
+
+ -- Leszek Lesner <leszek@zevenos.com>  Sat, 27 Oct 2012 12:32:08 +0200
+
+encode (0.0.25-1ubuntu9) unstable; urgency=low
+
+  * no presets for x264 (they were removed)
+  * use the ffmpeg version from system instead a precompiled one
+
+ -- Leszek Lesner <leszek@zevenos.com>  Sun, 08 Jul 2012 23:39:15 +0200
+
+encode (0.0.25-1ubuntu8) karmic; urgency=low
+
+  * added queuelist for batch encoding
+  * added commandline icon and replaced it with the encode icon in super encode
+  * fixed commandline ffmpeg command being wrong for ogv container
+  * rearranged all widgets on main form to fit better
+
+ -- Leszek Lesner <leszek@zevenos.com>  Tue, 25 Jan 2011 12:38:36 +0100
+
+encode (0.0.25-1ubuntu7) karmic; urgency=low
+
+  * rearranged all widgets to fit better
+  * fixed some strings cutted off
+  * manually entered video & audio bitrate are recognized now and will be used for encoding
+  * added scrollview for small screensizes like eeepc701
+  * made window resizable again
+  * auto hide video properties & resize window when choosing audio container
+  * removed profile view and profiles for old libvpx_vp8  
+  * added new about logo & logo source
+  * mark video & audio codec red if you choose invalid seperators -- 
+
+ -- Leszek Lesner <leszek@zevenos.com>  Fri, 21 Jan 2011 21:56:38 +0100
+
+encode (0.0.25-1ubuntu6) karmic; urgency=low
+
+  * added newest ffmpeg static build
+  * added libdirac support
+  * changed libvpx_vp8 to libvpx
+  * changed vorbis to libvorbis
+  * fixed the GUI to disable codec choose when audio or video are deactivated
+
+ -- Leszek Lesner <leszek@zevenos.com>  Tue, 18 Jan 2011 23:58:51 +0100
+
+encode (0.0.25-1ubuntu5) karmic; urgency=low
+
+  * added libfaac0 and libfaad2 dependencies
+
+ -- Leszek Lesner <leszek@zevenos.com>  Fri, 15 Oct 2010 19:14:05 +0200
+
+encode (0.0.25-1ubuntu4) karmic; urgency=low
+
+  * added more bitrates for audio and video
+
+ -- Leszek Lesner <leszek@zevenos.com>  Fri, 17 Sep 2010 18:15:08 +0200
+
+encode (0.0.25-1ubuntu3) karmic; urgency=low
+
+  * fixed all container formats choosing the appropriate codecs
+
+ -- Leszek Lesner <leszek@zevenos.com>  Mon, 26 Jul 2010 18:08:21 +0200
+
+encode (0.0.25-1ubuntu2) karmic; urgency=low
+
+  * added mkv container format
+  * added first implementation of 2pass
+  * added ffmpeg cmd viewer
+
+ -- Leszek Lesner <leszek@zevenos.com>  Tue, 01 Jun 2010 18:35:40 +0200
+
+encode (0.0.25-1ubuntu1) karmic; urgency=low
+
+  * added history button
+  * fixed disable video function to be active again when choosing video container
+  * fixed dependencies for ubuntu and debian
+
+ -- Leszek Lesner <leszek@zevenos.com>  Mon, 24 May 2010 14:01:16 +0200
+
+encode (0.0.25-1ubuntu0) karmic; urgency=low
+
+  * added new ffmpeg version with webm and vp8 support
+  * added options for webm and vp8 in gui
+  * changed libvorbis to vorbis for audio codec
+  * added automatically change audio and video codec for appropiate container
+
+ -- Leszek Lesner <leszek@zevenos.com>  Sat, 22 May 2010 18:02:43 +0200
+
+encode (0.0.24-1ubuntu7) karmic; urgency=low
+
+  * fixed default vbit
+  * added cmd option --fix-ffmpeg for fixing ffmpeg presets manually
+
+ -- Leszek Lesner <leszek@zevenos.com>  Fri, 02 Apr 2010 18:42:49 +0200
+
+encode (0.0.24-1ubuntu6) karmic; urgency=low
+
+  * fixed deb package for ffpresets not conflicting with other packages
+
+ -- Leszek Lesner <leszek@lenovo-zevenos2>  Tue, 23 Mar 2010 10:57:21 +0100
+
+encode (0.0.24-1ubuntu5) karmic; urgency=low
+
+  * fixed textbox for output to fit editbox for output
+
+ -- Leszek Lesner <leszek@lenovo-zevenos2>  Thu, 19 Nov 2009 17:21:20 +0100
+
+encode (0.0.24-1ubuntu4) karmic; urgency=low
+
+  * fixed textbox overlaying file extension box
+
+ -- Leszek Lesner <leszek@lenovo-zevenos2>  Thu, 19 Nov 2009 17:13:20 +0100
+
+encode (0.0.24-1ubuntu3) karmic; urgency=low
+
+  * fixed file extensions
+
+ -- Leszek Lesner <leszek@lenovo-zevenos2>  Thu, 19 Nov 2009 17:03:51 +0100
+
+encode (0.0.24-1ubuntu2) karmic; urgency=low
+
+  * added cmd arguments support
+
+ -- Leszek Lesner <leszek@lenovo-zevenos2>  Thu, 12 Nov 2009 13:31:27 +0100
+
+encode (0.0.24-1ubuntu1) karmic; urgency=low
+
+  * fixed link to create vcds
+
+ -- Leszek Lesner <leszek@lenovo-zevenos2>  Sun, 08 Nov 2009 14:44:28 +0100
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * fixed settings switchting to default when clicking on encode
+  * fixed editing textfield
+
+ -- leszek <leszek@zebuntu.com>  Sun, 11 Oct 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * fixed SUPER Encode with spaces in filename
+  * only show audio codecs when audio container selected
+  * added support for editing output directory and name
+
+ -- leszek <leszek@zebuntu.com>  Fri, 09 Oct 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * fixed libx264
+  * updated gui
+
+ -- leszek <leszek@zebuntu.com>  Wed, 23 Sep 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * New release version
+
+ -- leszek <leszek@zebuntu.com>  Mon, 24 Aug 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * redesigned for ZevenOS 2.0
+
+ -- leszek <leszek@zebuntu.com>  Mon, 24 Aug 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * added logging
+  * added view log button
+
+ -- leszek <leszek@zebuntu.com>  Wed, 18 Feb 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * added devede link
+
+ -- leszek <leszek@zebuntu.com>  Wed, 21 Jan 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * added SUPER Encode by L33k
+  * redesigned encode, gencoder, videtis
+  * added dozens of new codecs and containers
+  * based on a brand new ffmpeg version
+
+ -- leszek <leszek@zebuntu.com>  Sun, 18 Jan 2009 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * Fixed some bugs
+  * redesigned to fit ZevenOS RC1 Design
+
+ -- leszek <leszek@zebuntu.com>  Wed, 03 Sep 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * Fixed deb Package
+
+ -- leszek <leszek@zebuntu.com>  Fri, 01 Aug 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * New release version
+
+ -- leszek <leszek@zebuntu.com>  Fri, 01 Aug 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * New release version
+
+ -- leszek <leszek@zebuntu.com>  Fri, 01 Aug 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * New release version
+
+ -- leszek <leszek@zebuntu.com>  Fri, 01 Aug 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * dded Advanced Encoding
+  * with support for AVI,MP4,OGG,MPG Container
+  * and support for Mpeg4,H264,Theora,MPEG1/2 Codecs
+
+ -- leszek <leszek@zebuntu.com>  Fri, 01 Aug 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * New release version
+
+ -- leszek <leszek@zebuntu.com>  Fri, 25 Jul 2008 12:00:00 +0000
+
+encode (0.0.24-1) unstable; urgency=low
+
+  * Initial release
+
+ -- leszek <leszek@zebuntu.com>  Fri, 25 Jul 2008 12:00:00 +0000
+

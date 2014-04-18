@@ -10,7 +10,7 @@ global use_pyside
 try:
   # Try importing PyQt4 if available (i.e. on Desktop)
   from PyQt4.QtCore import QTimer, QObject, QUrl, QCoreApplication, SIGNAL,QTranslator, QProcess, SLOT, pyqtSlot, QString
-  from PyQt4.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox
+  from PyQt4.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon
   from PyQt4.QtDeclarative import QDeclarativeView
   use_pyside = False
 except:
@@ -18,7 +18,7 @@ except:
   try:
     # If PyQt4 could not be loaded use PySide (i.e. very useful for N900 and Maemo)
     from PySide.QtCore import QTimer, QObject, QUrl, QCoreApplication, SIGNAL,QTranslator, QProcess, SLOT, pyqtSlot, QString
-    from PySide.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox
+    from PySide.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon
     from PySide.QtDeclarative import QDeclarativeView
     print "success."
     use_pyside = True
@@ -68,7 +68,7 @@ def quit():
   
 def openFile():
   transObj = QObject()
-  fName = QFileDialog.getOpenFileName(None, transObj.tr("Open media file"), transObj.tr("Media file"), transObj.tr("Media Files (*.mp4 *.avi *.mp3 *.wav *.ogg *.flv *.ogv *.m4v *.m4a *.aac *.flac *.webm *.mpg *.mpeg *.wmv *.wma *.mp2 *.mov *.oga *.aif *.aiff *.aifc *.ape *.mka *.asf *.3gp *.dv *.m2t *.mts *.ts *.divx *.nsv *.ogm)"))
+  fName = QFileDialog.getOpenFileName(None, transObj.tr("Open media file"), home, transObj.tr("Media Files (*.mp4 *.avi *.mp3 *.wav *.ogg *.flv *.ogv *.m4v *.m4a *.aac *.flac *.webm *.mpg *.mpeg *.wmv *.wma *.mp2 *.mov *.oga *.aif *.aiff *.aifc *.ape *.mka *.asf *.3gp *.dv *.m2t *.mts *.ts *.divx *.nsv *.ogm)"))
   if fName.isEmpty() == False:
     rootObject.sourceFilename(fName)
     
@@ -122,6 +122,7 @@ home = path.expanduser("~")
 
 app = QApplication(sys.argv)
 app.setGraphicsSystem("raster")
+app.setWindowIcon(QIcon('qml/img/encode.png'))
 
 # Create the QML user interface.
 view = QDeclarativeView()
@@ -144,6 +145,9 @@ rootObject.openFile.connect(openFile)
 rootObject.saveFile.connect(saveFile)
 rootObject.encodeCmd.connect(encodeCmd)
 rootObject.abortEncode.connect(abortEncode)
+
+# Set home dir in qml
+rootObject.setHomeDir(home)
 
 # Create encode process
 cmdProcess = MyQProcess()
