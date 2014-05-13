@@ -49,6 +49,10 @@ Rectangle {
     signal saveFile(string filename);
     signal abortEncode();
 
+    function setBgColor(colorCode) {
+	rootRectangle.color = colorCode
+    }
+    
     function showAbout() {
         aboutView.opacity = 1
     }

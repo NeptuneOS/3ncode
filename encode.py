@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # ################################
-# MAGI 2 - QMLViewer for N9
+# Encode 3
 # by Leszek Lesner
-# released under the terms of GPLv3
+# released under the terms of BSD (3-clause)
 # ################################ 
 import sys
 global use_pyside
@@ -10,7 +10,7 @@ global use_pyside
 try:
   # Try importing PyQt4 if available (i.e. on Desktop)
   from PyQt4.QtCore import QTimer, QObject, QUrl, QCoreApplication, SIGNAL,QTranslator, QProcess, SLOT, pyqtSlot, QString
-  from PyQt4.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon
+  from PyQt4.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon, QPalette
   from PyQt4.QtDeclarative import QDeclarativeView
   use_pyside = False
 except:
@@ -18,7 +18,7 @@ except:
   try:
     # If PyQt4 could not be loaded use PySide (i.e. very useful for N900 and Maemo)
     from PySide.QtCore import QTimer, QObject, QUrl, QCoreApplication, SIGNAL,QTranslator, QProcess, SLOT, pyqtSlot, QString
-    from PySide.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon
+    from PySide.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon, QPalette
     from PySide.QtDeclarative import QDeclarativeView
     print "success."
     use_pyside = True
@@ -124,6 +124,8 @@ app = QApplication(sys.argv)
 app.setGraphicsSystem("raster")
 app.setWindowIcon(QIcon('qml/img/encode.png'))
 
+defaultBgColor=app.palette().color(QPalette.Window).name()
+
 # Create the QML user interface.
 view = QDeclarativeView()
 # Use PlasmaComponents
@@ -135,6 +137,9 @@ view.setResizeMode(QDeclarativeView.SizeRootObjectToView)
 
 # Get the root object of the user interface.
 rootObject = view.rootObject()
+
+# Set default background
+rootObject.setBgColor(defaultBgColor)
 
 # Check for parameters
 if len(sys.argv) > 1:
