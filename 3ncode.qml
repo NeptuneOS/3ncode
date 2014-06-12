@@ -48,6 +48,7 @@ Rectangle {
     signal openFile();
     signal saveFile(string filename);
     signal abortEncode();
+    signal openLogClicked();
 
     function setBgColor(colorCode) {
 	rootRectangle.color = colorCode
@@ -58,6 +59,8 @@ Rectangle {
     }
     function showError(errtxt) {
         animView.closeAnim()
+	queueView.queueList.model.remove(0)  // Make sure to remove failed jobs
+	queueView.finished=true // Make sure queueView can work
         errorView.opacity = 1.0
         errorView.txt = errorView.txt + "\n" + errtxt
     }
@@ -253,6 +256,7 @@ Rectangle {
         Behavior on opacity {
             NumberAnimation { target: errorView; property: "opacity"; duration: 250; easing.type: Easing.InOutQuad }
         }
+        onOpenLogClicked: rootRectangle.openLogClicked()
     }
 
     AboutView {
