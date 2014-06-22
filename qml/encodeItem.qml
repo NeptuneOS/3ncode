@@ -240,9 +240,9 @@ Item {
 
             if (video2pass.checked) {
                 cmdpass1 = cmd + " -y -pass 1"
-                cmdpass1 += " '" + savefText.text + "'"
+                cmdpass1 += " \"" + savefText.text + "\""
                 cmdpass2 = cmd + " -y -pass 2"
-                cmdpass2 += " '" + savefText.text + "'"
+                cmdpass2 += " \"" + savefText.text + "\""
                 // 2 Pass Output file
                 cmd = cmdpass1 + " && " + cmdpass2
             }

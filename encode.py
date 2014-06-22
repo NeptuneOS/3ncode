@@ -89,7 +89,7 @@ def saveFile(filename):
     
 def encodeCmd(cmd,outfile):
   # First check if outfile exists already
-  print unicode(outfile.toUtf8(), "utf-8")
+  #print unicode(outfile.toUtf8(), "utf-8")
   if path.exists(unicode(outfile.toUtf8(), "utf-8")): 
     print "File exists ask if you want to overwrite it"
     reply = QMessageBox.question(None, 'Message',
