@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Encode
-GenericName=Encode
-Comment=Graphical video and audio converter for ffmpeg
+Comment=Audio & Video Converter
+Comment[de]=Audio & Video Konverter
 Exec=encode
 Icon=encode
 Terminal=false
