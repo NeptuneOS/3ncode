@@ -1,5 +1,7 @@
 [Desktop Entry]
 Name=Encode
+GenericName[de]=Audio & Video Konverter
+GenericName=Audio & Video Converter
 Comment=Audio & Video Converter
 Comment[de]=Audio & Video Konverter
 Exec=encode
