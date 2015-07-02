@@ -184,7 +184,7 @@ Item {
 
         function deactivateVideo() {
             if (summaryVideoRectangle.height == 250) {
-                summaryVideoRectangle.height = 50
+                summaryVideoRectangle.height = summaryVideoRectangle.collapsedHeight
                 summaryVideo.opacity = 1
                 expandedVideo.opacity = 0
             }
@@ -318,7 +318,9 @@ Item {
         width: parent.width - 30
         //anchors.left: parent.left
         //anchors.leftMargin: 15
-        height: 50
+        property int collapsedHeight: Math.max((summaryVideoHeader.height + summaryVideoBody.height) * 1.2)
+        property int expandedHeight: Math.max((expandedVideoHeader.height + (videoCodecSelection.height * 9) * 1.2))
+        height: collapsedHeight
         radius: 8
 
         Behavior on height {
@@ -354,6 +356,7 @@ Item {
                 text: videoDeactivate.checked ? qsTr("     Video: deactivated") : qsTr("     Video:")
             }
             Text { // codec, resolution, bitrate, aspect ratio
+                id: summaryVideoBody
                 anchors.left: parent.left
                 anchors.leftMargin: 15
                 width: summaryVideoRectangle.width
@@ -677,7 +680,7 @@ Item {
         MouseArea {
             //            anchors.fill: parent  // This does not work as it blocks every mouseclick on the parent later on
             width: parent.width
-            height: 50
+            height: summaryVideoRectangle.collapsedHeight
             hoverEnabled: true
 
             //            onEntered: {                                              // Nice effect but might get in the way deactivated for now
@@ -693,19 +696,19 @@ Item {
             //                }
             //            }
             onClicked: {
-                if (parent.height == 50 && videoDeactivate.enabled == true) {
-                    if (summaryAudioRectangle.height == 250) {
-                        summaryAudioRectangle.height = 50
+                if (parent.height == summaryVideoRectangle.collapsedHeight && videoDeactivate.enabled == true) {
+                    if (summaryAudioRectangle.height == summaryAudioRectangle.expandedHeight) {
+                        summaryAudioRectangle.height = summaryAudioRectangle.collapsedHeight
                         summaryAudio.opacity = 1
                         expandedAudio.opacity = 0
                     }
-                    parent.height = 250
+                    parent.height = summaryVideoRectangle.expandedHeight
                     summaryVideo.opacity = 0
                     expandedVideo.opacity = 1
                 }
                 else if (videoDeactivate.enabled == true)
                 {
-                    parent.height = 50
+                    parent.height = summaryVideoRectangle.collapsedHeight
                     summaryVideo.opacity = 1
                     expandedVideo.opacity = 0
                 }
@@ -722,7 +725,9 @@ Item {
         width: parent.width - 30
         //anchors.left: parent.left
         //anchors.leftMargin: 15
-        height: 50
+        property int collapsedHeight: Math.max((summaryAudioHeader.height + summaryAudioBody.height) * 1.2)
+        property int expandedHeight: Math.max((expandedAudioHeader.height + (audioCodecSelection.height * 7) * 1.2))
+        height: collapsedHeight
         radius: 8
 
         Behavior on height {
@@ -757,6 +762,7 @@ Item {
                 text: audioDeactivate.checked ? qsTr("     Audio: deactivated") : qsTr("     Audio:")
             }
             Text { // codec, resolution, bitrate, aspect ratio
+                id: summaryAudioBody
                 anchors.left: parent.left
                 anchors.leftMargin: 15
                 text: audioDeactivate.checked ? "" : "<b>Codec:</b> " + audioCodec + " <b>Bitrate:</b> " + audioBitrate + " <b>Sampling Freq:</b> " +
@@ -1130,7 +1136,7 @@ Item {
         MouseArea {
             //            anchors.fill: parent  // This does not work as it blocks every mouseclick on the parent later on
             width: parent.width
-            height: 50
+            height: summaryAudioRectangle.collapsedHeight
             hoverEnabled: true
 
             //            onEntered: {
@@ -1144,19 +1150,19 @@ Item {
             //                expandedAudio.opacity = 1
             //            }
             onClicked: {
-                if (parent.height == 50) {
-                    if (summaryVideoRectangle.height == 250) {
-                        summaryVideoRectangle.height = 50
+                if (parent.height == summaryAudioRectangle.collapsedHeight) {
+                    if (summaryVideoRectangle.height == summaryVideoRectangle.expandedHeight) {
+                        summaryVideoRectangle.height = summaryVideoRectangle.collapsedHeight
                         summaryVideo.opacity = 1
                         expandedVideo.opacity = 0
                     }
-                    parent.height = 250
+                    parent.height = summaryAudioRectangle.expandedHeight
                     summaryAudio.opacity = 0
                     expandedAudio.opacity = 1
                 }
                 else
                 {
-                    parent.height = 50
+                    parent.height = summaryAudioRectangle.collapsedHeight
                     summaryAudio.opacity = 1
                     expandedAudio.opacity = 0
                 }
