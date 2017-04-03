@@ -1,3 +1,9 @@
+encode (3.0.0-neptune3) unstable; urgency=medium
+
+  * Fixed videoSummaryRectangle & audioSummaryRectangle height
+
+ -- Leszek Lesner <leszek@zevenos.com>  Thu, 02 Jul 2015 12:09:48 +0200
+
 encode (3.0.0-neptune2) unstable; urgency=low
 
   * Fixed desktop file and shell script copy to /usr/bin
