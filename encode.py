@@ -27,7 +27,7 @@ except:
     print "Please install either PyQt4 or PySide for this application to run successfully."
     sys.exit(1) 
 
-from PyKDE4.plasma import *  
+#from PyKDE4.plasma import *  
     
 class MyQProcess(QProcess):     
   def __init__(self):    
@@ -132,8 +132,8 @@ app.setGraphicsSystem("raster")
 app.setWindowIcon(QIcon('qml/img/encode.png'))
 
 defaultBgColor=app.palette().color(QPalette.Window).name()
-Plasma.Theme.defaultTheme().setUseGlobalSettings(False)
-Plasma.Theme.defaultTheme().setThemeName("AirNeptune")
+#Plasma.Theme.defaultTheme().setUseGlobalSettings(False)
+#Plasma.Theme.defaultTheme().setThemeName("AirNeptune")
 #Plasma::Theme::defaultTheme()->setUseGlobalSettings(false); //don't change every plasma theme!
 #Plasma::Theme::defaultTheme()->setThemeName("appdashboard");
 
