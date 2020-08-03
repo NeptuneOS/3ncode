@@ -30,7 +30,7 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
+import QtQuick 2.1
 
 
 ListView {
@@ -91,8 +91,8 @@ ListView {
                 text: qsTr("     Summary:")
             }
             Text { // codec, resolution, bitrate, aspect ratio
-                anchors.left: parent.left
-                anchors.leftMargin: 15
+//                 anchors.left: parent.left
+//                 anchors.leftMargin: 15
                 text: "<b>Source:</b> " + source + "<br /><b>Target:</b> " + target +"<br /><b>Video Codec:</b> " + videoCodec + " <b>Video Bitrate:</b> " + videoBitrate + "<br /><b>Resolution:</b> " +
                       videoResolution + " <b>Aspect:</b> " + videoAspect + "<br /><b>Audio Codec:</b> " + audioCodec + " <b>Audio Bitrate:</b> " + audioBitrate +  "<br /><b>Sampling Freq:</b> " +
                       audioSamplingFreq + " <b>Channels:</b> " + audioChannel

@@ -30,90 +30,91 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
-PlasmaComponents.ContextMenu {
+Controls.Menu {
 
     signal formatChanged(string format);
 
     id: containerMenu
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("== Video ==")
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("3gp")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("asf")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("avi")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("mov")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("mp4")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("mkv")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("mpeg")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("ogv")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("flv")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("webm")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("wmv")
         onClicked: formatChanged(text)
     }
     // Audio Codecs here //
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("== Audio ==")
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("aac")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("ac3")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("flac")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("mp2")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("mp3")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("ogg")
         onClicked: formatChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("wav")
         onClicked: formatChanged(text)
     }

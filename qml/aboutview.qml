@@ -31,8 +31,9 @@
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
 
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
 Rectangle {
         id: aboutPage
@@ -50,7 +51,7 @@ Rectangle {
             NumberAnimation { duration: 450 }
         }
 
-        PlasmaComponents.Button {
+        Controls.Button {
             anchors.right: parent.right
             anchors.top: parent.top
             text: "X"

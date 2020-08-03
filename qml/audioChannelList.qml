@@ -30,23 +30,24 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
-PlasmaComponents.ContextMenu {
+Controls.Menu {
 
     signal channelChanged(string channel);
 
     id: videoCodecMenu
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("1")
         onClicked: channelChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("2")
         onClicked: channelChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("custom")
         onClicked: channelChanged(text)
     }

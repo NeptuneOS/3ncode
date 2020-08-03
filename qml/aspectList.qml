@@ -30,47 +30,48 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
-PlasmaComponents.ContextMenu {
+Controls.Menu {
 
     signal aspectChanged(string aspect);
 
     id: resolutionMenu
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("1:1")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("3:2")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("4:3")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("5:4")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("5:6")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("11:6")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("16:9")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("16:10")
         onClicked: aspectChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("no change")
         onClicked: aspectChanged(text)
     }

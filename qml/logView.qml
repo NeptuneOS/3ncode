@@ -30,8 +30,9 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
 Rectangle {
     id: listRectangle
@@ -52,7 +53,7 @@ Rectangle {
         doc.send();
     }
 
-    PlasmaComponents.TextArea {
+    Controls.TextArea {
         id: textArea
         wrapMode: TextEdit.Wrap
 //        anchors.fill: parent
@@ -60,7 +61,6 @@ Rectangle {
         width: parent.width - 10
         anchors.horizontalCenter: parent.horizontalCenter
         height: parent.height - (backButton.height + 20)
-        contentMaxHeight: parent.height * 100
     }
 //    Flickable {
 //        id: textAreaScroll
@@ -75,7 +75,7 @@ Rectangle {
 //        }
 //    }
 
-    PlasmaComponents.Button {
+    Controls.Button {
         id: backButton
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15

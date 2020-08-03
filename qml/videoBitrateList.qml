@@ -30,91 +30,92 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
-PlasmaComponents.ContextMenu {
+Controls.Menu {
 
     signal bitrateChanged(string bitrate);
 
     id: videoBitrateMenu
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("100k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("200k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("300k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("333k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("400k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("500k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("600k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("700k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("777k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("800k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("900k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("1000k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("1150k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("2000k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("3000k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("3333k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("4000k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("5000k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("6000k")
         onClicked: bitrateChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("custom")
         onClicked: bitrateChanged(text)
     }

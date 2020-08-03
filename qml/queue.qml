@@ -30,8 +30,9 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
 Rectangle {
     id: queueRectangle
@@ -58,7 +59,7 @@ Rectangle {
     }
 
 
-    PlasmaComponents.Button {
+    Controls.Button {
         id: helpButton
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
@@ -83,13 +84,13 @@ Rectangle {
         anchors.leftMargin: 5
         height: 60
         width: parent.width
-        PlasmaComponents.Button {
+        Controls.Button {
             id: encodeBtn
             anchors.horizontalCenter: parent.horizontalCenter
             width:140
             height: 48
             enabled: finished
-            iconSource: "file://img/encode-btn.png"
+            icon.source: "file://img/encode-btn.png"
             Image {
                 id: icon
                 width: 48

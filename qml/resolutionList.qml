@@ -30,79 +30,80 @@
   ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
-PlasmaComponents.ContextMenu {
+Controls.Menu {
 
     signal resolutionChanged(string resolution);
 
     id: resolutionMenu
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("320x240")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("352x240")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("352x288")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("384x288")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("480x480")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("480x576")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("640x368")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("704x408")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("704x576")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("720x576")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("640x480")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("720x480")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("1280x720")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("1920x1080")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("4096×3112")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("no change")
         onClicked: resolutionChanged(text)
     }
-    PlasmaComponents.MenuItem {
+    Controls.MenuItem {
         text: qsTr("custom")
         onClicked: resolutionChanged(text)
     }

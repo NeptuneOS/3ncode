@@ -31,9 +31,9 @@
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
 
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.core 0.1 as PlasmaCore
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
 Item {
     id: root
@@ -65,7 +65,6 @@ Item {
         //anchors.top: parent.top
         //anchors.topMargin: 15
         width: parent.width - 30
-        height: 100
         //anchors.left: parent.left
         //anchors.leftMargin: 15
 
@@ -257,8 +256,6 @@ Item {
         TextField {
             id: openfText
             placeholderText: qsTr("Open source file here")
-            anchors.top: parent.top
-            anchors.left: parent.left
             width: 350
             height: 32
             clearButtonShown: true
@@ -267,40 +264,42 @@ Item {
             }
         }
 
-        PlasmaComponents.Button {
+        Controls.Button {
             id: openfBtn
             text: qsTr("Open")
-            anchors.left: openfText.right
-            anchors.leftMargin: 15
-            anchors.verticalCenter: openfText.verticalCenter
             width: 80
             height: 32
-            iconSource: "document-open"
+            icon.name: "document-open"
             // Just for testing now // DEBUG
             onClicked: { openFileClicked() }
         }
+    }
+    
+    Item {
+        id: containerChooser
+        anchors.top: sourceGrid.bottom
+        anchors.topMargin: 10
+        height: 30
+        width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
         Text {
             id: containerLabel
             text: qsTr("Choose container format:")
-            anchors.left: parent.left
-            anchors.top: openfText.bottom
-            anchors.topMargin: 35
+            anchors.verticalCenter: containerSelection.verticalCenter
         }
-
-        PlasmaComponents.Button {
+        
+        Controls.Button {
             id: containerSelection
-            width: 280
-            height: 24
+            width: containerChooser.width / 1.75
             anchors.left: containerLabel.right
             anchors.leftMargin: 25
-            anchors.top: openfText.bottom
-            anchors.topMargin: 30
+            height: 28
             text: "avi"
-            iconSource: "go-down"
+            icon.name: "go-down"
             onClicked: contMenu.open()
             ContainerList {
                 id: contMenu
-                visualParent: containerSelection
+                parent: containerSelection
                 onFormatChanged: {
                     sourceGrid.checkFormatandSetCodecs(format)
                     containerSelection.text = format
@@ -313,8 +312,8 @@ Item {
     Rectangle {
         id: summaryVideoRectangle
         color: "white"
-        anchors.top: sourceGrid.bottom
-        anchors.topMargin: 5
+        anchors.top: containerChooser.bottom
+        anchors.topMargin: 10
         width: parent.width - 30
         //anchors.left: parent.left
         //anchors.leftMargin: 15
@@ -346,6 +345,7 @@ Item {
             width: parent.width - 15
             height: parent.height - 15
             anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             Behavior on opacity {
                 NumberAnimation { duration: 300 }
             }
@@ -357,8 +357,6 @@ Item {
             }
             Text { // codec, resolution, bitrate, aspect ratio
                 id: summaryVideoBody
-                anchors.left: parent.left
-                anchors.leftMargin: 15
                 width: summaryVideoRectangle.width
                 text: videoDeactivate.checked ? "" : "<b>Codec:</b> " + videoCodec + " <b>Bitrate:</b> " + videoBitrate + " <b>Resolution:</b> " +
                                                 videoResolution + "<br /><b>Aspect:</b> " + videoAspect
@@ -389,8 +387,6 @@ Item {
                 Image {
                     id: videoIcon
                     source: "img/video-x-generic.png"
-                    anchors.top: expandedVideoHeader.bottom
-                    anchors.topMargin: 15
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                 }
@@ -402,12 +398,11 @@ Item {
                     rows: 3
                     spacing: 5
 
-                    PlasmaComponents.CheckBox {
+                    Controls.CheckBox {
                         id: videoDeactivate
                     }
                     Text {
                         text: "Deactivate Video"
-                        anchors.verticalCenter: videoDeactivate.verticalCenter
                         enabled: videoDeactivate.enabled
                         MouseArea {
                             anchors.fill: parent
@@ -417,13 +412,12 @@ Item {
                             }
                         }
                     }
-                    PlasmaComponents.CheckBox {
+                    Controls.CheckBox {
                         id: video2pass
                         enabled: videoDeactivate.checked ? false : true
                     }
                     Text {
                         text: "2 Pass"
-                        anchors.verticalCenter: video2pass.verticalCenter
                         MouseArea {
                             anchors.fill: parent
                             enabled: videoDeactivate.checked ? false : true
@@ -433,14 +427,13 @@ Item {
                             }
                         }
                     }
-                    PlasmaComponents.CheckBox {
+                    Controls.CheckBox {
                         id: videoMultithreading
                         enabled: videoDeactivate.checked ? false : true
                         checked: true // A sane default
                     }
                     Text {
                         text: "Multithreading"
-                        anchors.verticalCenter: videoMultithreading.verticalCenter
                         MouseArea {
                             anchors.fill: parent
                             enabled: videoDeactivate.checked ? false : true
@@ -461,23 +454,22 @@ Item {
                     Text {
                         id: videoCodecLabel
                         text: qsTr("Codec:")
-                        anchors.verticalCenter: videoCodecSelection.verticalCenter
                         width: 55
                     }
 
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: videoCodecSelection
                         width: 100
                         height: 24
                         text: "libxvid"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: videoCodecLabel.right
                         anchors.leftMargin: 15
                         onClicked: videoCodecMenu.open()
                         enabled: videoDeactivate.checked ? false : true
                         VideoCodecList {
                             id: videoCodecMenu
-                            visualParent: videoCodecSelection
+                            parent: videoCodecSelection
                             onCodecChanged: {
                                 videoCodecSelection.text = codec
                                 videoCodec = codec
@@ -490,21 +482,20 @@ Item {
                         id: videoBitrateLabel
                         text: qsTr("Bitrate:")
                         width: 55
-                        anchors.verticalCenter: videoBitrateSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: videoBitrateSelection
                         width: 100
                         height: 24
                         text: "777k"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: videoBitrateLabel.right
                         anchors.leftMargin: 15
                         onClicked: videoBitrateMenu.open()
                         enabled: videoDeactivate.checked ? false : true
                         VideoBitrateList {
                             id: videoBitrateMenu
-                            visualParent: videoBitrateSelection
+                            parent: videoBitrateSelection
                             onBitrateChanged: {
                                 if (bitrate != "custom") {
                                     videoBitrateSelection.text = bitrate
@@ -535,7 +526,6 @@ Item {
                         id: videoBitrateCustom
                         width: 5
                         opacity: 0
-                        anchors.verticalCenter: videoBitrateCustomHint.verticalCenter
                         focus: true
                         onAccepted: {
                             videoBitrate = text
@@ -545,7 +535,7 @@ Item {
                         Behavior on width {
                             NumberAnimation { duration: 400 }
                         }
-                        PlasmaComponents.Button {
+                        Controls.Button {
                             id: videoBitrateCustomHint
                             anchors.left: videoBitrateCustom.right
                             anchors.leftMargin: 15
@@ -573,21 +563,20 @@ Item {
                         id: videoResolutionLabel
                         text: qsTr("Resolution:")
                         width: 55
-                        anchors.verticalCenter: videoResolutionSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: videoResolutionSelection
                         width: 100
                         height: 24
                         text: "no change"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: videoResolutionLabel.right
                         anchors.leftMargin: 15
                         onClicked: videoResolutionMenu.open()
                         enabled: videoDeactivate.checked ? false : true
                         ResolutionList {
                             id: videoResolutionMenu
-                            visualParent: videoResolutionSelection
+                            parent: videoResolutionSelection
                             onResolutionChanged: {
                                 if (resolution != "custom") {
                                     videoResolutionSelection.text = resolution
@@ -618,7 +607,6 @@ Item {
                         width: 5
                         opacity: 0
                         focus: true
-                        anchors.verticalCenter: videoResolutionCustomHint.verticalCenter
                         onAccepted: {
                             videoResolution = videoResolutionCustom.text
                             console.log(videoResolution)
@@ -627,7 +615,7 @@ Item {
                         Behavior on width {
                             NumberAnimation { duration: 400 }
                         }
-                        PlasmaComponents.Button {
+                        Controls.Button {
                             id: videoResolutionCustomHint
                             anchors.left: videoResolutionCustom.right
                             anchors.leftMargin: 15
@@ -648,21 +636,20 @@ Item {
                         id: aspectLabel
                         text: qsTr("Aspect:")
                         width: 55
-                        anchors.verticalCenter: aspectSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: aspectSelection
                         width: 100
                         height: 24
                         text: "no change"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: aspectLabel.right
                         anchors.leftMargin: 15
                         onClicked: aspectMenu.open()
                         enabled: videoDeactivate.checked ? false : true
                         AspectList {
                             id: aspectMenu
-                            visualParent: aspectSelection
+                            parent: aspectSelection
                             onAspectChanged: {
                                 aspectSelection.text = aspect
                                 videoAspect = aspect
@@ -752,6 +739,7 @@ Item {
             width: parent.width - 15
             height: parent.height - 15
             anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             Behavior on opacity {
                 NumberAnimation { duration: 300 }
             }
@@ -763,8 +751,6 @@ Item {
             }
             Text { // codec, resolution, bitrate, aspect ratio
                 id: summaryAudioBody
-                anchors.left: parent.left
-                anchors.leftMargin: 15
                 text: audioDeactivate.checked ? "" : "<b>Codec:</b> " + audioCodec + " <b>Bitrate:</b> " + audioBitrate + " <b>Sampling Freq:</b> " +
                                                 audioSamplingFreq + " <br /><b>Channel:</b> " + audioChannel + " <br /><b>Language Channel:</b> " + audioLanguageChannel
             }
@@ -794,7 +780,7 @@ Item {
                 Image {
                     id: audioIcon
                     source: "img/audio-x-generic.png"
-                    anchors.top: expandedVideoHeader.bottom
+                    anchors.top: parent.bottom
                     anchors.topMargin: 15
                     anchors.left: parent.left
                     anchors.leftMargin: 10
@@ -807,12 +793,11 @@ Item {
                     rows: 3
                     spacing: 5
 
-                    PlasmaComponents.CheckBox {
+                    Controls.CheckBox {
                         id: audioDeactivate
                     }
                     Text {
                         text: "Deactivate Audio"
-                        anchors.verticalCenter: audioDeactivate.verticalCenter
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -832,23 +817,22 @@ Item {
                     Text {
                         id: audioCodecLabel
                         text: qsTr("Codec:")
-                        anchors.verticalCenter: audioCodecSelection.verticalCenter
                         width: 55
                     }
 
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: audioCodecSelection
                         width: 100
                         height: 24
                         text: "libmp3lame"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: audioCodecLabel.right
                         anchors.leftMargin: 15
                         onClicked: audioCodecMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioCodecList {
                             id: audioCodecMenu
-                            visualParent: audioCodecSelection
+                            parent: audioCodecSelection
                             onCodecChanged: {
                                 audioCodecSelection.text = codec
                                 audioCodec = codec
@@ -861,21 +845,20 @@ Item {
                         id: audioBitrateLabel
                         text: qsTr("Bitrate:")
                         width: 55
-                        anchors.verticalCenter: audioBitrateSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: audioBitrateSelection
                         width: 100
                         height: 24
                         text: "128k"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: audioBitrateLabel.right
                         anchors.leftMargin: 15
                         onClicked: audioBitrateMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioBitrateList {
                             id: audioBitrateMenu
-                            visualParent: audioBitrateSelection
+                            parent: audioBitrateSelection
                             onBitrateChanged: {
                                 if (bitrate != "custom") {
                                     audioBitrateSelection.text = bitrate
@@ -906,7 +889,6 @@ Item {
                         id: audioBitrateCustom
                         width: 5
                         opacity: 0
-                        anchors.verticalCenter: audioBitrateCustomHint.verticalCenter
                         focus: true
                         onAccepted: {
                             audioBitrate = text
@@ -916,7 +898,7 @@ Item {
                         Behavior on width {
                             NumberAnimation { duration: 400 }
                         }
-                        PlasmaComponents.Button {
+                        Controls.Button {
                             id: audioBitrateCustomHint
                             anchors.left: audioBitrateCustom.right
                             anchors.leftMargin: 15
@@ -944,21 +926,20 @@ Item {
                         id: audioSamplingFreqLabel
                         text: qsTr("Sampl. Freq:")
                         width: 55
-                        anchors.verticalCenter: audioSamplingFreqSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: audioSamplingFreqSelection
                         width: 100
                         height: 24
                         text: "44100"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: audioSamplingFreqLabel.right
                         anchors.leftMargin: 15
                         onClicked: audioSamplingFreqMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         SamplingList {
                             id: audioSamplingFreqMenu
-                            visualParent: audioSamplingFreqSelection
+                            parent: audioSamplingFreqSelection
                             onSamplingChanged: {
                                 audioSamplingFreqSelection.text = sampling
                                 audioSamplingFreq = sampling
@@ -980,21 +961,20 @@ Item {
                         id: audioChannelLabel
                         text: qsTr("Channel:")
                         width: 55
-                        anchors.verticalCenter: audioChannelSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: audioChannelSelection
                         width: 100
                         height: 24
                         text: "2"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: audioChannelLabel.right
                         anchors.leftMargin: 15
                         onClicked:audioChannelMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioChannelList {
                             id: audioChannelMenu
-                            visualParent: audioChannelSelection
+                            parent: audioChannelSelection
                             onChannelChanged: {
                                 if (channel !== qsTr("custom")) {
                                     audioChannelSelection.text = channel
@@ -1025,7 +1005,6 @@ Item {
                         width: 5
                         opacity: 0
                         focus: true
-                        anchors.verticalCenter: audioChannelCustomHint.verticalCenter
                         onAccepted: {
                             audioChannel = audioChannelCustom.text
                             console.log(audioChannel)
@@ -1034,7 +1013,7 @@ Item {
                         Behavior on width {
                             NumberAnimation { duration: 400 }
                         }
-                        PlasmaComponents.Button {
+                        Controls.Button {
                             id: audioChannelCustomHint
                             anchors.left: audioChannelCustom.right
                             anchors.leftMargin: 15
@@ -1055,21 +1034,20 @@ Item {
                         id: audioLanguageChannelLabel
                         text: qsTr("Language:")
                         width: 55
-                        anchors.verticalCenter: audioLanguageChannelSelection.verticalCenter
                     }
-                    PlasmaComponents.Button {
+                    Controls.Button {
                         id: audioLanguageChannelSelection
                         width: 100
                         height: 24
                         text: "not set"
-                        iconSource: "go-down"
+                        icon.name: "go-down"
                         anchors.left: audioLanguageChannelLabel.right
                         anchors.leftMargin: 15
                         onClicked:audioLanguageChannelMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioLanguageChannelList {
                             id: audioLanguageChannelMenu
-                            visualParent: audioLanguageChannelSelection
+                            parent: audioLanguageChannelSelection
                             onChannelChanged: {
                                 if (channel !== qsTr("custom")) {
                                     audioLanguageChannelSelection.text = channel
@@ -1100,7 +1078,6 @@ Item {
                         width: 5
                         opacity: 0
                         focus: true
-                        anchors.verticalCenter: audioLanguageChannelCustomHint.verticalCenter
                         onAccepted: {
                             audioLanguageChannel = audioLanguageChannelCustom.text
                             console.log(audioLanguageChannel)
@@ -1109,7 +1086,7 @@ Item {
                         Behavior on width {
                             NumberAnimation { duration: 400 }
                         }
-                        PlasmaComponents.Button {
+                        Controls.Button {
                             id: audioLanguageChannelCustomHint
                             anchors.left: audioLanguageChannelCustom.right
                             anchors.leftMargin: 15
@@ -1185,7 +1162,7 @@ Item {
             height: 32
             clearButtonShown: true
         }
-        PlasmaComponents.Button {
+        Controls.Button {
             id: savefBtn
             text: qsTr("Save")
             anchors.left: savefText.right
@@ -1193,7 +1170,7 @@ Item {
             anchors.verticalCenter: savefText.verticalCenter
             width: 80
             height: 32
-            iconSource: "document-save"
+            icon.name: "document-save"
             // Just for testing now // DEBUG
             onClicked: { saveFileClicked(target);  }
         }
@@ -1251,7 +1228,7 @@ Item {
                 NumberAnimation { duration: 500 }
             }
         }
-        TextArea {
+        Controls.TextArea {
             id: cmdText
             anchors.left: cmdLabel.right
             anchors.leftMargin: 5
@@ -1276,12 +1253,12 @@ Item {
         anchors.leftMargin: 5
         height: 60
         width: parent.width
-        PlasmaComponents.Button {
+        Controls.Button {
             id: encodeBtn
             anchors.horizontalCenter: parent.horizontalCenter
             width:140
             height: 48
-            iconSource: "file://img/encode-btn.png"
+            icon.source: "file://img/encode-btn.png"
             onClicked: { encodeClicked(sourceGrid.createFFmpegCommand(),savefText.text) }
             Image {
                 id: icon

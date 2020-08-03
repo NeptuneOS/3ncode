@@ -31,8 +31,9 @@
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
 
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 
 Rectangle {
     id: errorPage
@@ -57,7 +58,7 @@ Rectangle {
         onClicked: { errorPage.opacity = 0 }
     }
 
-    PlasmaComponents.Button {
+    Controls.Button {
             anchors.right: parent.right
             anchors.top: parent.top
             text: "X"
@@ -83,7 +84,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 25
         contentHeight: errorText.paintedHeight
-        PlasmaComponents.TextArea {
+        Controls.TextArea {
             id: errorText
             anchors { right: parent.right; rightMargin: 8; left: parent.left; leftMargin: 8; verticalCenter: parent.verticalCenter }
             anchors.fill: parent
@@ -94,7 +95,7 @@ Rectangle {
             text: "Error occured"
         }
     }
-    PlasmaComponents.Button {
+    Controls.Button {
             anchors.right: parent.right
             anchors.rightMargin: 25
             anchors.top: flick.bottom

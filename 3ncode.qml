@@ -31,9 +31,9 @@
   ** EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   **/
 
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.core 0.1 as PlasmaCore
+import QtQuick 2.1
+import org.kde.kirigami 2.4 as Kirigami
+import QtQuick.Controls 2.0 as Controls
 import "qml"
 
 Rectangle {
@@ -91,10 +91,10 @@ Rectangle {
     }
 
 
-    PlasmaComponents.Button {
+    Controls.Button {
         id: add2Queue
         text: qsTr("Queue")
-        iconSource: "list-add"
+        icon.name: "list-add"
         anchors.right: parent.right
         anchors.rightMargin: 15
         anchors.bottom: parent.bottom
@@ -146,7 +146,7 @@ Rectangle {
         }
     }
 
-    PlasmaComponents.Button {
+    Controls.Button {
         id: helpButton
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
@@ -165,12 +165,12 @@ Rectangle {
         }
     }
 
-    PlasmaComponents.ContextMenu {
+    Controls.Menu {
         id: helpMenu
-        visualParent: helpButton
-        PlasmaComponents.MenuItem {
+        parent: helpButton
+        Controls.MenuItem {
             text: qsTr("Show Command")
-            icon: QIcon("terminal")
+            icon.name: "terminal"
             onClicked: {
                 if (encodeItem.cmdbox.height == 0) {
                     encodeItem.cmdbox.height = 80
@@ -181,38 +181,38 @@ Rectangle {
                 encodeItem.cmdbox.toggleShow()
             }
         }
-        PlasmaComponents.MenuItem {
+        Controls.MenuItem {
             text: qsTr("Show Queue")
-            icon: QIcon("evolution-tasks")
+            icon.name: "evolution-tasks"
             // TODO show Queue here
             onClicked: { queueView.visible = true }
         }
-        PlasmaComponents.MenuItem {
+        Controls.MenuItem {
             text: qsTr("Show History")
-            icon: QIcon("documentation")
+            icon.name: "documentation"
             // TODO show History here
             onClicked: {
                 logViewer.readTxt(homeDir + "/encode_history.log")
                 logViewer.visible = true
             }
         }
-        PlasmaComponents.MenuItem {
+        Controls.MenuItem {
             text: qsTr("Show Log")
-            icon: QIcon("text-x-changelog")
+            icon.name: "text-x-changelog"
             // TODO show Log here
             onClicked: {
                 logViewer.readTxt(homeDir + "/encode.log")
                 logViewer.visible = true
             }
         }
-        PlasmaComponents.MenuItem {
+        Controls.MenuItem {
             text: qsTr("About")
-            icon: QIcon("gtk-about")
+            icon.name: "gtk-about"
             onClicked: showAbout()
         }
     }
 
-    PlasmaComponents.Button {
+    Controls.Button {
         id: queueButton
         anchors.left: helpButton.right
         anchors.leftMargin: 15
