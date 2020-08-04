@@ -34,6 +34,7 @@
 import QtQuick 2.1
 import org.kde.kirigami 2.4 as Kirigami
 import QtQuick.Controls 2.0 as Controls
+import QtQuick.Layouts 1.0
 
 Item {
     id: root
@@ -187,13 +188,13 @@ Item {
                 summaryVideo.opacity = 1
                 expandedVideo.opacity = 0
             }
-            videoDeactivate.checked = true
-            videoDeactivate.enabled = false
+            expandedVideo.videoDeactivate.checked = true
+            expandedVideo.videoDeactivate.enabled = false
         }
 
         function activateVideo() {
-            videoDeactivate.checked = false
-            videoDeactivate.enabled = true
+            expandedVideo.videoDeactivate.checked = false
+            expandedVideo.videoDeactivate.enabled = true
         }
 
         function createFFmpegCommand() {
@@ -206,8 +207,8 @@ Item {
             // Audio conversions first
             // example ffmpeg cmd:
             // ffmpeg -i ''  -vn -ab 128k -ar 44100 -b 2000k -f wav -vcodec libxvid -ac 2 -acodec pcm_s16le '.wav'
-            if (videoDeactivate.checked == true) {
-                video2pass.enabled = false
+            if (expandedVideo.videoDeactivate.checked == true) {
+                expandedVideo.video2pass.enabled = false
                 cmd += " -vn"
             }
             else if (audioDeactivate.checked) {
@@ -233,11 +234,11 @@ Item {
             if (videoAspect != "no change") {
                 cmd += " -aspect " + videoAspect
             }
-            if (videoMultithreading.checked) {
+            if (expandedVideo.videoMultithreading.checked) {
                 cmd += " -threads 0"
             }
 
-            if (video2pass.checked) {
+            if (expandedVideo.video2pass.checked) {
                 cmdpass1 = cmd + " -y -pass 1"
                 cmdpass1 += " \"" + savefText.text + "\""
                 cmdpass2 = cmd + " -y -pass 2"
@@ -317,8 +318,8 @@ Item {
         width: parent.width - 30
         //anchors.left: parent.left
         //anchors.leftMargin: 15
-        property int collapsedHeight: Math.max((summaryVideoHeader.height + summaryVideoBody.height) * 1.2)
-        property int expandedHeight: Math.max((expandedVideoHeader.height + (videoCodecSelection.height * 9) * 1.2))
+        property int collapsedHeight: Math.max((summaryVideo.childrenRect.height) * 1.5)
+        property int expandedHeight: Math.max(expandedVideo.childrenRect.height * 1.1)
         height: collapsedHeight
         radius: 8
 
@@ -327,8 +328,8 @@ Item {
         }
 
         Image {
-            source: if (summaryVideo.opacity == 1 && videoDeactivate.enabled == true) { return "img/down.png" }
-                    else if (summaryVideo.opacity == 0 && videoDeactivate.enabled == true) { return "img/up.png" }
+            source: if (summaryVideo.opacity == 1 && expandedVideo.videoDeactivate.enabled == true) { return "img/down.png" }
+                    else if (summaryVideo.opacity == 0 && expandedVideo.videoDeactivate.enabled == true) { return "img/up.png" }
                     else { return "" }
 
             anchors.right: parent.right
@@ -337,11 +338,8 @@ Item {
             anchors.topMargin: 5
         }
 
-        Grid {
+        GridLayout {
             id: summaryVideo
-            rows: 2
-            anchors.top: parent.top
-            anchors.topMargin: 5
             width: parent.width - 15
             height: parent.height - 15
             anchors.verticalCenter: parent.verticalCenter
@@ -353,321 +351,27 @@ Item {
             Text {
                 id: summaryVideoHeader
                 font.bold: true
-                text: videoDeactivate.checked ? qsTr("     Video: deactivated") : qsTr("     Video:")
+                text: expandedVideo.videoDeactivate.checked ? qsTr("     Video: deactivated") : qsTr("     Video:")
             }
             Text { // codec, resolution, bitrate, aspect ratio
                 id: summaryVideoBody
                 width: summaryVideoRectangle.width
-                text: videoDeactivate.checked ? "" : "<b>Codec:</b> " + videoCodec + " <b>Bitrate:</b> " + videoBitrate + " <b>Resolution:</b> " +
+                text: expandedVideo.videoDeactivate.checked ? "" : "<b>Codec:</b> " + videoCodec + " <b>Bitrate:</b> " + videoBitrate + " <b>Resolution:</b> " +
                                                 videoResolution + "<br /><b>Aspect:</b> " + videoAspect
             }
         } // Grid Summary Video
-        Row {
+        ExpandedVideoItem {
             id: expandedVideo
-            anchors.top: parent.top
-            anchors.topMargin: 5
-            width: parent.width - 15
-            height: parent.height - 15
-            anchors.verticalCenter: parent.verticalCenter
-            opacity: 0
-            spacing: 25
-
-            Behavior on opacity {
-                NumberAnimation { duration: 300 }
-            }
-
-            Column {
-                spacing: 10
-
-                Text {
-                    id: expandedVideoHeader
-                    font.bold: true
-                    text: videoDeactivate.checked ? qsTr("     Video: deactivated") : qsTr("     Video:")
-                }
-                Image {
-                    id: videoIcon
-                    source: "img/video-x-generic.png"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                }
-                Grid {   // Grid for checkboxes
-                    id: videoCheckboxes
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    columns: 2
-                    rows: 3
-                    spacing: 5
-
-                    Controls.CheckBox {
-                        id: videoDeactivate
-                    }
-                    Text {
-                        text: "Deactivate Video"
-                        enabled: videoDeactivate.enabled
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                if (videoDeactivate.checked == false) { videoDeactivate.checked = true }
-                                else {videoDeactivate.checked = false }
-                            }
-                        }
-                    }
-                    Controls.CheckBox {
-                        id: video2pass
-                        enabled: videoDeactivate.checked ? false : true
-                    }
-                    Text {
-                        text: "2 Pass"
-                        MouseArea {
-                            anchors.fill: parent
-                            enabled: videoDeactivate.checked ? false : true
-                            onClicked: {
-                                if (video2pass.checked == false) { video2pass.checked = true }
-                                else {video2pass.checked = false }
-                            }
-                        }
-                    }
-                    Controls.CheckBox {
-                        id: videoMultithreading
-                        enabled: videoDeactivate.checked ? false : true
-                        checked: true // A sane default
-                    }
-                    Text {
-                        text: "Multithreading"
-                        MouseArea {
-                            anchors.fill: parent
-                            enabled: videoDeactivate.checked ? false : true
-                            onClicked: {
-                                if (videoMultithreading.checked == false) { videoMultithreading.checked = true }
-                                else {videoMultithreading.checked = false }
-                            }
-                        }
-                    }
-                } // Grid for checkboxes
-            } // Column for icon and checkboxes
-            Column { // Column for Codec, Bitrate, Resolution & Aspect Ratio
-                anchors.top: parent.top
-                anchors.topMargin: 45
-                spacing: 5
-
-                Row {
-                    Text {
-                        id: videoCodecLabel
-                        text: qsTr("Codec:")
-                        width: 55
-                    }
-
-                    Controls.Button {
-                        id: videoCodecSelection
-                        width: 100
-                        height: 24
-                        text: "libxvid"
-                        icon.name: "go-down"
-                        anchors.left: videoCodecLabel.right
-                        anchors.leftMargin: 15
-                        onClicked: videoCodecMenu.open()
-                        enabled: videoDeactivate.checked ? false : true
-                        VideoCodecList {
-                            id: videoCodecMenu
-                            parent: videoCodecSelection
-                            onCodecChanged: {
-                                videoCodecSelection.text = codec
-                                videoCodec = codec
-                            }
-                        }
-                    }
-                }
-                Row {
-                    Text {
-                        id: videoBitrateLabel
-                        text: qsTr("Bitrate:")
-                        width: 55
-                    }
-                    Controls.Button {
-                        id: videoBitrateSelection
-                        width: 100
-                        height: 24
-                        text: "777k"
-                        icon.name: "go-down"
-                        anchors.left: videoBitrateLabel.right
-                        anchors.leftMargin: 15
-                        onClicked: videoBitrateMenu.open()
-                        enabled: videoDeactivate.checked ? false : true
-                        VideoBitrateList {
-                            id: videoBitrateMenu
-                            parent: videoBitrateSelection
-                            onBitrateChanged: {
-                                if (bitrate != "custom") {
-                                    videoBitrateSelection.text = bitrate
-                                    videoBitrate = bitrate
-                                    videoBitrateCustom.width = 5
-                                    videoBitrateCustomHint.opacity = 0
-                                    videoBitrateCustom.opacity = 0
-
-                                }
-                                else {
-                                    videoBitrateSelection.text = bitrate
-                                    videoBitrateCustom.opacity = 1
-                                    videoBitrateCustom.width = 100
-                                    videoBitrateCustomHint.text =  qsTr("Set bitrate")
-                                    videoBitrateCustomHint.opacity = 1
-                                    videoBitrateCustom.forceActiveFocus()
-                                    videoBitrateCustom.focus = true
-                                }
-                            }
-
-                        } // VideoBitrateList
-
-                    } // Button videoBitrateSelection
-                }
-                Row {
-
-                    TextField {
-                        id: videoBitrateCustom
-                        width: 5
-                        opacity: 0
-                        focus: true
-                        onAccepted: {
-                            videoBitrate = text
-                            console.log(videoBitrate)
-                            videoBitrateCustomHint.text = qsTr("Bitrate " +  videoBitrate + " set")
-                        }
-                        Behavior on width {
-                            NumberAnimation { duration: 400 }
-                        }
-                        Controls.Button {
-                            id: videoBitrateCustomHint
-                            anchors.left: videoBitrateCustom.right
-                            anchors.leftMargin: 15
-                            opacity: 0
-                            Behavior on opacity {
-                                NumberAnimation { duration : 800 }
-                            }
-                            text: qsTr("Set bitrate")
-                            onClicked: {
-                                if (videoBitrateCustom.text.substr(-1) === "k") {
-
-                                }
-                                else {
-                                    videoBitrateCustom.text = videoBitrateCustom.text + "k"
-                                }
-                                videoBitrate = videoBitrateCustom.text
-                                text = qsTr("Bitrate " +  videoBitrate + " set")
-                            }
-                        }
-                    } // TextField videoBitrateCustom
-                }
-
-                Row {
-                    Text {
-                        id: videoResolutionLabel
-                        text: qsTr("Resolution:")
-                        width: 55
-                    }
-                    Controls.Button {
-                        id: videoResolutionSelection
-                        width: 100
-                        height: 24
-                        text: "no change"
-                        icon.name: "go-down"
-                        anchors.left: videoResolutionLabel.right
-                        anchors.leftMargin: 15
-                        onClicked: videoResolutionMenu.open()
-                        enabled: videoDeactivate.checked ? false : true
-                        ResolutionList {
-                            id: videoResolutionMenu
-                            parent: videoResolutionSelection
-                            onResolutionChanged: {
-                                if (resolution != "custom") {
-                                    videoResolutionSelection.text = resolution
-                                    videoResolution = resolution
-                                    videoResolutionCustom.width = 5
-                                    videoResolutionCustomHint.opacity = 0
-                                    videoResolutionCustom.opacity = 0
-
-                                }
-                                else {
-                                    videoResolutionSelection.text = resolution
-                                    videoResolutionCustom.opacity = 1
-                                    videoResolutionCustom.width = 100
-                                    videoResolutionCustomHint.text =  qsTr("Set resolution")
-                                    videoResolutionCustomHint.opacity = 1
-                                    videoResolutionCustom.forceActiveFocus()
-                                    videoResolutionCustom.focus = true
-                                }
-                            }
-
-                        } // VideoResolutionList
-
-                    } // Button videoResolutionSelection
-                }
-                Row {
-                    TextField {
-                        id: videoResolutionCustom
-                        width: 5
-                        opacity: 0
-                        focus: true
-                        onAccepted: {
-                            videoResolution = videoResolutionCustom.text
-                            console.log(videoResolution)
-                            videoResolutionCustomHint.text = qsTr("Resolution " +  videoResolution + " set")
-                        }
-                        Behavior on width {
-                            NumberAnimation { duration: 400 }
-                        }
-                        Controls.Button {
-                            id: videoResolutionCustomHint
-                            anchors.left: videoResolutionCustom.right
-                            anchors.leftMargin: 15
-                            opacity: 0
-                            Behavior on opacity {
-                                NumberAnimation { duration : 800 }
-                            }
-                            text: qsTr("Set resolution")
-                            onClicked: {
-                                videoResolution = videoResolutionCustom.text
-                                text = qsTr("Resolution " +  videoResolution + " set")
-                            }
-                        }
-                    } // TextField videoBitrateCustom
-                }
-                Row {
-                    Text {
-                        id: aspectLabel
-                        text: qsTr("Aspect:")
-                        width: 55
-                    }
-                    Controls.Button {
-                        id: aspectSelection
-                        width: 100
-                        height: 24
-                        text: "no change"
-                        icon.name: "go-down"
-                        anchors.left: aspectLabel.right
-                        anchors.leftMargin: 15
-                        onClicked: aspectMenu.open()
-                        enabled: videoDeactivate.checked ? false : true
-                        AspectList {
-                            id: aspectMenu
-                            parent: aspectSelection
-                            onAspectChanged: {
-                                aspectSelection.text = aspect
-                                videoAspect = aspect
-                            }
-
-                        } // aspectList
-
-                    } // Button aspectSelection
-                }
-
-
-            } // Column for Codec, Bitrate, ...
-
-        } // Row Expanded Video
+        }
         MouseArea {
             //            anchors.fill: parent  // This does not work as it blocks every mouseclick on the parent later on
             width: parent.width
-            height: summaryVideoRectangle.collapsedHeight
+            height: { 
+                if (parent.height == summaryVideoRectangle.expandedHeight) 
+                    summaryVideoRectangle.collapsedHeight / 2.5
+                else 
+                    summaryVideoRectangle.collapsedHeight
+            }
             hoverEnabled: true
 
             //            onEntered: {                                              // Nice effect but might get in the way deactivated for now
@@ -683,7 +387,7 @@ Item {
             //                }
             //            }
             onClicked: {
-                if (parent.height == summaryVideoRectangle.collapsedHeight && videoDeactivate.enabled == true) {
+                if (parent.height == summaryVideoRectangle.collapsedHeight && expandedVideo.videoDeactivate.enabled == true) {
                     if (summaryAudioRectangle.height == summaryAudioRectangle.expandedHeight) {
                         summaryAudioRectangle.height = summaryAudioRectangle.collapsedHeight
                         summaryAudio.opacity = 1
@@ -693,7 +397,7 @@ Item {
                     summaryVideo.opacity = 0
                     expandedVideo.opacity = 1
                 }
-                else if (videoDeactivate.enabled == true)
+                else if (expandedVideo.videoDeactivate.enabled == true)
                 {
                     parent.height = summaryVideoRectangle.collapsedHeight
                     summaryVideo.opacity = 1
@@ -731,7 +435,7 @@ Item {
             anchors.topMargin: 5
         }
 
-        Grid {
+        GridLayout {
             id: summaryAudio
             rows: 2
             anchors.top: parent.top
@@ -755,7 +459,7 @@ Item {
                                                 audioSamplingFreq + " <br /><b>Channel:</b> " + audioChannel + " <br /><b>Language Channel:</b> " + audioLanguageChannel
             }
         } // Grid Summary Audio
-        Row {
+        RowLayout {
             id: expandedAudio
             anchors.top: parent.top
             anchors.topMargin: 5
@@ -769,7 +473,7 @@ Item {
                 NumberAnimation { duration: 300 }
             }
 
-            Column {
+            ColumnLayout {
                 spacing: 10
 
                 Text {
@@ -780,18 +484,11 @@ Item {
                 Image {
                     id: audioIcon
                     source: "img/audio-x-generic.png"
-                    anchors.top: parent.bottom
-                    anchors.topMargin: 15
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
                 }
-                Grid {   // Grid for checkboxes
+                GridLayout {   // Grid for checkboxes
                     id: audioCheckboxes
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
                     columns: 2
                     rows: 3
-                    spacing: 5
 
                     Controls.CheckBox {
                         id: audioDeactivate
@@ -808,12 +505,10 @@ Item {
                     }
                 } // Grid for checkboxes
             } // Column for icon and checkboxes
-            Column { // Column for Codec, Bitrate, Resolution & Aspect Ratio
-                anchors.top: parent.top
-                anchors.topMargin: 45
+            ColumnLayout { // Column for Codec, Bitrate, Resolution & Aspect Ratio
                 spacing: 5
 
-                Row {
+                RowLayout {
                     Text {
                         id: audioCodecLabel
                         text: qsTr("Codec:")
@@ -826,8 +521,6 @@ Item {
                         height: 24
                         text: "libmp3lame"
                         icon.name: "go-down"
-                        anchors.left: audioCodecLabel.right
-                        anchors.leftMargin: 15
                         onClicked: audioCodecMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioCodecList {
@@ -840,7 +533,7 @@ Item {
                         }
                     }
                 }
-                Row {
+                RowLayout {
                     Text {
                         id: audioBitrateLabel
                         text: qsTr("Bitrate:")
@@ -852,8 +545,6 @@ Item {
                         height: 24
                         text: "128k"
                         icon.name: "go-down"
-                        anchors.left: audioBitrateLabel.right
-                        anchors.leftMargin: 15
                         onClicked: audioBitrateMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioBitrateList {
@@ -883,7 +574,7 @@ Item {
 
                     } // Button audioBitrateSelection
                 }
-                Row {
+                RowLayout {
 
                     TextField {
                         id: audioBitrateCustom
@@ -900,8 +591,6 @@ Item {
                         }
                         Controls.Button {
                             id: audioBitrateCustomHint
-                            anchors.left: audioBitrateCustom.right
-                            anchors.leftMargin: 15
                             opacity: 0
                             Behavior on opacity {
                                 NumberAnimation { duration : 800 }
@@ -921,7 +610,7 @@ Item {
                     } // TextField audioBitrateCustom
                 }
 
-                Row {
+                RowLayout {
                     Text {
                         id: audioSamplingFreqLabel
                         text: qsTr("Sampl. Freq:")
@@ -933,8 +622,6 @@ Item {
                         height: 24
                         text: "44100"
                         icon.name: "go-down"
-                        anchors.left: audioSamplingFreqLabel.right
-                        anchors.leftMargin: 15
                         onClicked: audioSamplingFreqMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         SamplingList {
@@ -949,14 +636,11 @@ Item {
 
                     } // Button audioSamplingFreqSelection
                     Text {
-                        anchors.left: audioSamplingFreqSelection.right
-                        anchors.leftMargin: 15
-                        anchors.verticalCenter: audioSamplingFreqSelection.verticalCenter
                         text : "Hz"
                     }
                 }
 
-                Row {
+                RowLayout {
                     Text {
                         id: audioChannelLabel
                         text: qsTr("Channel:")
@@ -968,8 +652,6 @@ Item {
                         height: 24
                         text: "2"
                         icon.name: "go-down"
-                        anchors.left: audioChannelLabel.right
-                        anchors.leftMargin: 15
                         onClicked:audioChannelMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioChannelList {
@@ -999,7 +681,7 @@ Item {
 
                     } // Button audioChannelSelection
                 }
-                Row {
+                RowLayout {
                     TextField {
                         id: audioChannelCustom
                         width: 5
@@ -1015,8 +697,6 @@ Item {
                         }
                         Controls.Button {
                             id: audioChannelCustomHint
-                            anchors.left: audioChannelCustom.right
-                            anchors.leftMargin: 15
                             opacity: 0
                             Behavior on opacity {
                                 NumberAnimation { duration : 800 }
@@ -1029,7 +709,7 @@ Item {
                         }
                     } // TextField audioChannelCustom
                 }
-                Row {
+                RowLayout {
                     Text {
                         id: audioLanguageChannelLabel
                         text: qsTr("Language:")
@@ -1041,8 +721,6 @@ Item {
                         height: 24
                         text: "not set"
                         icon.name: "go-down"
-                        anchors.left: audioLanguageChannelLabel.right
-                        anchors.leftMargin: 15
                         onClicked:audioLanguageChannelMenu.open()
                         enabled: audioDeactivate.checked ? false : true
                         AudioLanguageChannelList {
@@ -1072,7 +750,7 @@ Item {
 
                     } // Button audioLanguageChannelSelection
                 }
-                Row {
+                RowLayout {
                     TextField {
                         id: audioLanguageChannelCustom
                         width: 5
@@ -1088,8 +766,6 @@ Item {
                         }
                         Controls.Button {
                             id: audioLanguageChannelCustomHint
-                            anchors.left: audioLanguageChannelCustom.right
-                            anchors.leftMargin: 15
                             opacity: 0
                             Behavior on opacity {
                                 NumberAnimation { duration : 800 }
