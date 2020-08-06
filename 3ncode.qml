@@ -246,11 +246,13 @@ Rectangle {
     ConvertAnimView {
         id: animView
         opacity: 0
+        visible: opacity != 0
         outputfile: outFile
     }
     ErrorView {
         id: errorView
         opacity: 0
+        visible: opacity != 0
         width: parent.width -(parent.width/8)
         height: 250
         Behavior on opacity {
@@ -263,6 +265,7 @@ Rectangle {
         id: aboutView
         anchors.centerIn: parent
         opacity: 0
+        visible: opacity != 0
     }
 
 }
