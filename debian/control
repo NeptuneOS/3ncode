@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: encode
 Architecture: all
-Depends: ffmpeg-encode | ffmpeg, kde-runtime, python-qt4 | python-pyside
+Depends: ffmpeg-encode | ffmpeg, kde-runtime, python-pyqt5 | python-pyside2, python-pyqt5.qtquick | python-pyside2.qtquick
 Suggests: libfaad2, libmp3lame0, libopencore-amrnb0, libopencore-amrwb0, libfaac0, libfaad2, libxvidcore4, opus, x264, mkvtoolnix, ffmpeg-encode 
 Description: Graphical video and audio converter for ffmpeg
  .
