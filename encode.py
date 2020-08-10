@@ -8,13 +8,15 @@ import sys
 global use_pyside
 
 try:
-  # Try importing PyQt4 if available (i.e. on Desktop)
-  from PyQt4.QtCore import QTimer, QObject, QUrl, QCoreApplication, SIGNAL,QTranslator, QProcess, SLOT, pyqtSlot, QString
-  from PyQt4.QtGui import QApplication, QDesktopWidget, QFileDialog, QMessageBox, QIcon, QPalette
-  from PyQt4.QtDeclarative import QDeclarativeView
+  # Try importing PyQt5 if available (i.e. on Desktop)
+  from PyQt5.QtCore import QTimer, QObject, QUrl, QCoreApplication, QTranslator, QProcess, pyqtSlot, QSize
+  from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget, QFileDialog, QPushButton, QMessageBox
+  from PyQt5 import QtGui, QtCore, uic, QtWidgets
+  from PyQt5.QtGui import QIcon, QPalette
+  from PyQt5.QtQuick import QQuickView
   use_pyside = False
 except:
-  print "PyQt4 failed to load, trying to use PySide instead..."
+  print "PyQt5 failed to load, trying to use PySide instead..."
   try:
     # If PyQt4 could not be loaded use PySide (i.e. very useful for N900 and Maemo)
     from PySide.QtCore import QTimer, QObject, QUrl, QCoreApplication, SIGNAL,QTranslator, QProcess, SLOT, pyqtSlot, QString
@@ -39,7 +41,7 @@ class MyQProcess(QProcess):
    #rootObject.hideEncodeAnimation()
    #print str(outputfile)
    #print cmdProcess.exitCode()
-   if path.exists(unicode(outputfile.toUtf8(), "utf-8")) and (cmdProcess.exitCode() == 0 or cmdProcess.exitCode() == 255):
+   if path.exists(outputfile) and (cmdProcess.exitCode() == 0 or cmdProcess.exitCode() == 255):
      print "File encoded successfully"
      rootObject.successEncode()
    else:
@@ -51,7 +53,7 @@ class MyQProcess(QProcess):
   def errorEncode(self):
    print "error occured" 
    rootObject.hideEncodeAnimation()
-   rootObject.showError(QString.fromAscii(self.readAllStandardError()))
+   rootObject.showError(self.readAllStandardError())
    self.close()
    
   @pyqtSlot()
@@ -75,8 +77,8 @@ def openLog():
 def openFile():
   transObj = QObject()
   fName = QFileDialog.getOpenFileName(None, transObj.tr("Open media file"), home, transObj.tr("Media Files (*.mp4 *.avi *.mp3 *.wav *.ogg *.flv *.ogv *.m4v *.m4a *.aac *.flac *.webm *.mpg *.mpeg *.wmv *.wma *.mp2 *.mov *.oga *.aif *.aiff *.aifc *.ape *.mka *.asf *.3gp *.dv *.m2t *.mts *.ts *.divx *.nsv *.ogm)"))
-  if fName.isEmpty() == False:
-    rootObject.sourceFilename(fName)
+  if fName[0] != "":
+    rootObject.sourceFilename(fName[0])
     
 def openF(filename):
     rootObject.sourceFilename(filename)
@@ -84,20 +86,20 @@ def openF(filename):
 def saveFile(filename):
   transObj = QObject()
   fName = QFileDialog.getSaveFileName(None, transObj.tr("Save media file"), filename, "")
-  if fName.isEmpty() == False:
-    rootObject.targetFilename(fName)  
+  if fName[0] != "":
+    rootObject.targetFilename(fName[0])  
     
 def encodeCmd(cmd,outfile):
   # First check if outfile exists already
-  #print unicode(outfile.toUtf8(), "utf-8")
-  if path.exists(unicode(outfile.toUtf8(), "utf-8")): 
+  print (outfile)
+  if path.exists(outfile): 
     print "File exists ask if you want to overwrite it"
     reply = QMessageBox.question(None, 'Message',
             "The file " + outfile + " already exists. Do you want to overwrite it ?", QMessageBox.Yes | 
             QMessageBox.No, QMessageBox.No)
 
     if reply == QMessageBox.Yes:
-      remove(unicode(outfile.toUtf8(), "utf-8"))
+      remove(outfile)
     else:
       return
     
@@ -105,7 +107,7 @@ def encodeCmd(cmd,outfile):
   outputfile = outfile
   
   # Write command to history file
-  popen("echo \"" + unicode(cmd.toUtf8(), "utf-8").encode("utf-8") + "\" >> ~/encode_history.log") 
+  popen("echo \"" + cmd.encode('utf-8') + "\" >> ~/encode_history.log") 
   # Execute command
   #popen("xterm -T \"Encoding...\" -b 5 -e \"" + str(cmd) +  " 2>&1 | tee ~/encode.log\" &")
   rootObject.showEncodeAnimaton()
@@ -128,7 +130,6 @@ from os import popen, path, remove
 home = path.expanduser("~")
 
 app = QApplication(sys.argv)
-app.setGraphicsSystem("raster")
 app.setWindowIcon(QIcon('qml/img/encode.png'))
 
 defaultBgColor=app.palette().color(QPalette.Window).name()
@@ -138,13 +139,11 @@ defaultBgColor=app.palette().color(QPalette.Window).name()
 #Plasma::Theme::defaultTheme()->setThemeName("appdashboard");
 
 # Create the QML user interface.
-view = QDeclarativeView()
-# Use PlasmaComponents
-engine = view.engine()
-engine.addImportPath("/usr/lib/kde4/imports")
+view = QQuickView()
+
 # Set main qml here
 view.setSource(QUrl("3ncode.qml"))
-view.setResizeMode(QDeclarativeView.SizeRootObjectToView)
+view.setResizeMode(QQuickView.SizeRootObjectToView)
 
 # Get the root object of the user interface.
 rootObject = view.rootObject()
@@ -168,21 +167,26 @@ rootObject.setHomeDir(home)
 
 # Create encode process
 cmdProcess = MyQProcess()
-QObject.connect(cmdProcess,SIGNAL("finished(int)"),cmdProcess,SLOT("finishEncode()"))
-QObject.connect(cmdProcess,SIGNAL("readyReadStandardOutput()"),cmdProcess,SLOT("readStdOutput()"))
-QObject.connect(cmdProcess,SIGNAL("readyReadStandardError()"),cmdProcess,SLOT("readStdError()"))
-QObject.connect(cmdProcess,SIGNAL("error()"),cmdProcess,SLOT("errorEncode()"))
+cmdProcess.finished.connect(cmdProcess.finishEncode)
+cmdProcess.readyReadStandardOutput.connect(cmdProcess.readStdOutput)
+cmdProcess.readyReadStandardError.connect(cmdProcess.readStdError)
+cmdProcess.error.connect(cmdProcess.errorEncode)
+#QObject.connect(cmdProcess,SIGNAL("finished(int)"),cmdProcess,SLOT("finishEncode()"))
+#QObject.connect(cmdProcess,SIGNAL("readyReadStandardOutput()"),cmdProcess,SLOT("readStdOutput()"))
+#QObject.connect(cmdProcess,SIGNAL("readyReadStandardError()"),cmdProcess,SLOT("readStdError()"))
+#QObject.connect(cmdProcess,SIGNAL("error()"),cmdProcess,SLOT("errorEncode()"))
 
 # Outputfile
-outputfile = QString("empty")
+outputfile = "empty"
 
 # Display the user interface and allow the user to interact with it.
 view.setGeometry(0, 0, 480, 575)
-view.setFixedSize(480, 575) 
-view.setWindowTitle(QCoreApplication.translate(None, 'Encode'))
+view.setMaximumSize(QSize(480, 575)) 
+view.setMinimumSize(QSize(480, 575)) 
+view.setTitle(QCoreApplication.translate(None, 'Encode'))
 screen = QDesktopWidget().screenGeometry()
 size =  view.geometry()
-view.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+view.setPosition((screen.width()-size.width())/2, (screen.height()-size.height())/2)
 view.show()
 #view.showFullScreen()
 
